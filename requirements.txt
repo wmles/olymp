@@ -1,0 +1,14 @@
+appdirs==1.4.3
+Django==1.10.6
+django-extensions==1.7.7
+django-guardian==1.4.6
+django-userena==2.0.1
+docutils==0.13.1
+easy-thumbnails==2.3
+html2text==2016.9.19
+olefile==0.44
+packaging==16.8
+Pillow==4.0.0
+pyparsing==2.2.0
+pytz==2016.10
+six==1.10.0
