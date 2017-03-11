@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 from userena.models import UserenaBaseProfile
 from django.core.validators import RegexValidator
 import random, string
+from django.template.defaultfilters import slugify
 
 
 class Grundklasse(models.Model):

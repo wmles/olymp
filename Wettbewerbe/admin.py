@@ -13,3 +13,4 @@ admin.site.register(WettbewerbsKategorie)
 admin.site.register(ArtKategorie)
 admin.site.register(Unterseite)
 
+
