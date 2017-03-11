@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'Grundgeruest',
+    'Wettbewerbe',
 
     'django.contrib.admin',
     'django.contrib.auth',

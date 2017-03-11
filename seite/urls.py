@@ -21,6 +21,8 @@ from django.views.generic import TemplateView#, ListView, DetailView,
 urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^nutzer/', include('userena.urls')),
+    url(r'^olymp/', include('Wettbewerbe.urls')),
 
     url(r'^$', 
         TemplateView.as_view(

@@ -1,0 +1,10 @@
+{% extends "Basistemplate.html" %}
+
+{% block content %}
+    <h2> Liste aller bisher eingetragenen {{ art }} </h2>
+    <ul>
+        {% for kategorie in kategorien %}
+            <li>{{ kategorie.bezeichnung }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

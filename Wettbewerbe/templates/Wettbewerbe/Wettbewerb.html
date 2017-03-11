@@ -1,0 +1,43 @@
+{% extends "Basistemplate.html" %}
+{% block content %}
+
+<h1> Das ist die Seite der {{ Wettbewerb.bezeichnung }} </h1>
+
+Zurück zur <a href="{% url 'Margarete:Fachbereich' Wettbewerb.fachbereich.urlbezeichnung %}">{{ Wettbewerb.fachbereich.bezeichnung }}</a></br>
+
+{% if Wettbewerb.beschreibung %}
+<p>Beschreibung: {{ Wettbewerb.beschreibung }} </p>
+{% endif %}
+{% lorem 2 p random %}
+
+{% if Wettbewerb.wettbewerbsrunde_set.all %}
+Der Wettbewerb ist aus folgenden Stufen aufgebaut:
+{% endif %}
+{% for wr in Wettbewerb.wettbewerbsrunde_set.all %}
+	<li><a href="{% url 'Margarete:Wettbewerbsrunde' Wettbewerb.fachbereich.urlbezeichnung Wettbewerb.urlbezeichnung wr.runde %}">{{ wr.bezeichnung }}</a></li>
+{% endfor %}
+
+{% if Jahrgaenge %}
+Es existieren Informationen über folgende Jahrgänge des Wettbewerbs in der Datenbank:
+{% endif %}
+{% for jahr in Jahrgaenge %}
+	<li><a href="{% url 'Margarete:Wettbewerbsjahrgang' Wettbewerb.fachbereich.urlbezeichnung Wettbewerb.urlbezeichnung jahr %}">{{ jahr }}. Jahrgang</a></li>
+{% endfor %}
+
+{% if Ehrentafel %}
+folgende Teilnehmer waren besonders erfolgreich:
+{% endif %}
+{% for teiln,score in Ehrentafel%}
+{% if score > 0 %}
+	<li><a href="{% url 'Margarete:Profil' teiln.urlbezeichnung %}">{{ teiln.vorname }} {{teiln.nachname }}</a> ({{ score }})</li>
+{% endif %}
+{% endfor %}
+
+
+{% endblock %}
+
+
+
+{% block fusszeile %} 
+Das ist die Veranstaltungs-Füßzeile 
+{% endblock %}

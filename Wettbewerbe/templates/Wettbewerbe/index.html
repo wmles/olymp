@@ -1,0 +1,17 @@
+{% extends "Basistemplate.html" %}
+
+{% block content %}
+  <h1> Startseite der Wettbewerbsdatenbank! </h1>
+  <p> Hier kommen Sie zu Listen der: </p>
+  <ul>
+    {% for seite in unterseiten %}
+      <li> <a href="{{ seite }}">{{ seite }}</a></li>
+    {% endfor %}
+  </ul>
+  <p> 
+    tertiam non olet: {% lorem 47 w random %}. 
+    <br> {% lorem 81 w random %}. 
+  </p>
+
+{% endblock %}
+
