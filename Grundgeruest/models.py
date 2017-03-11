@@ -35,6 +35,7 @@ class Grundklasse(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ["bezeichnung"]
         
 
 class Nutzer(AbstractUser):

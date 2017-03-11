@@ -8,24 +8,13 @@ Die Datenmodelle für die Wettbewerbsdatenbank
 """
 
 from django.db import models
+from seite import settings
+from Grundgeruest.models import Grundklasse
 
-class Grundklasse(models.Model):
-    bezeichnung = models.CharField(max_length=30)
-        
-    datum_erstellt = models.DateTimeField(
-        auto_now_add=True,
-        editable=False)
-
-    def __str__(self):
-        return str(self.bezeichnung)
-
-    class Meta:
-        abstract = True
-        ordering = ["bezeichnung"]
 
 class ArtTeilnahme(Grundklasse):
     """ Bezeichnung der Art: xy.Preis, Organisator, etc """
-    pass
+    class Meta: verbose_name_plural = 'Arten der Teilnahme'
 
 class ArtVeranstaltung(Grundklasse):
     """ Bezeichnung der Art: Seminar, Olympiaderunde, etc 
@@ -33,6 +22,7 @@ class ArtVeranstaltung(Grundklasse):
     Bestimmt darüber, welche Teilnahmearten es gibt
     """
     teilnahmearten = models.ManyToManyField(ArtTeilnahme) 
+    class Meta: verbose_name_plural = 'Arten der Veranstaltungen'
 
 class Veranstaltung(Grundklasse):
     """ Eine konkrete Veranstaltung: Seminar, Wettbewerbsrunde, etc. """
@@ -40,10 +30,14 @@ class Veranstaltung(Grundklasse):
     gehoert_zu = models.ForeignKey(
         "WettbewerbsKategorie", 
         blank=True, null=True)
+    class Meta: verbose_name_plural = 'Veranstaltungen'
 
 class Person(Grundklasse):
     """ Alle Attribute einer Person, später: Verknüpfung zu User """
     veranstaltungen = models.ManyToManyField(Veranstaltung, through='Teilnahme')
+    nutzer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    class Meta: verbose_name_plural = 'Personen'
+    
 
 class Teilnahme(Grundklasse):
     """ Wie konkret hat die Person an der Veranstaltung teilgenommen """
@@ -63,10 +57,11 @@ class Teilnahme(Grundklasse):
     def __str__(self):
         return '{} - {}'.format(self.person, self.veranstaltung)
 
+    class Meta: verbose_name_plural = 'Konkrete Teilnahmen'
 
 class WettbewerbsKategorie(Grundklasse):
     """ Der Grundbaustein aller Logik der Wettbewerbsstruktur
-   
+    
     Je nach art_kategorie können beliebige Objekte gemeint sein, von einer
     einzelnen Wettbewerbsrunde bis zum Fachbereich. Kategorien beziehen 
     sich aufeinander durch gehoert_zu.
@@ -81,9 +76,12 @@ class WettbewerbsKategorie(Grundklasse):
         return '{}: {}'.format(
             self.art_kategorie.bezeichnung, self.bezeichnung)
 
+    class Meta: verbose_name_plural = 'Wettbewerbskategorien'
+
 class ArtKategorie(Grundklasse):
     """ Die zur Auswahl stehenden Arten: Fachbereich, Wettbewerbsrunde """
     plural = models.CharField(max_length=30, null=True)
+    class Meta: verbose_name_plural = 'Arten der Wettbewerbskategorien'
 
 
 class Unterseite(Grundklasse): # ist das eine Sackgasse?
@@ -95,4 +93,5 @@ class Unterseite(Grundklasse): # ist das eine Sackgasse?
     template_name = models.CharField(
         max_length=40, 
         null=True, blank=True)
+    class Meta: verbose_name_plural = 'Unterseiten'
     
