@@ -1,38 +1,15 @@
-{% load cms_tags menu_tags sekizai_tags static %}
+{% load static %}
 <!doctype html>
 <html>
   <head>
     <meta charset="utf-8"></meta>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'css/w3.css' %}" />
     <link rel="stylesheet" href="{% static 'css/w3-theme-light-green.css' %}">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
     <title>{% block title %}This is my new project home page{% endblock title %}</title>
-    <style type="text/css">
-      .nav {
-        padding-left: 0;
-      }
-      .nav li {
-        display: inline;
-        list-style-type: none;
-        padding-right: 20px;
-      }
-      .container {
-        width: 940px;
-        margin: 0 auto
-      }
-      .content {
-        float: left;
-        width: 80%;
-      }
-      .sidebar {
-        float: left;
-        width: 20%;
-      }
-    </style>
-    {% render_block "css" %}
   </head>
   <body class="w3-theme-d3">
-    {% cms_toolbar %}
     {% block alles %}
     <div class="w3-card-4 w3-theme-l1 w3-margin-16 w3-round" style="margin:8">
       <div class="w3-container w3-theme-l4 w3-padding-16">
@@ -67,12 +44,5 @@
     </div>
     {% endblock %}
 
-    <div class="container">
-      <ul class="nav">
-        {% show_menu 0 100 100 100 %}
-      </ul>
-    </div>
-
-    {% render_block "js" %}
   </body>
 </html>
