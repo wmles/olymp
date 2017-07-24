@@ -21,11 +21,11 @@ from django.views.generic import TemplateView#, ListView, DetailView,
 urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^nutzer/', include('userena.urls')),
+    url(r'^nutzer/', include('userena.urls', namespace='')),
     url(r'^olymp/', include('Wettbewerbe.urls')),
 
     url(r'^$', 
         TemplateView.as_view(
-            template_name='Grundgeruest/Startseite.html'), 
+            template_name='Grundgeruest/base.html'), 
         name='startseite'),
 ]
