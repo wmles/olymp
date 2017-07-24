@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Liste aller bisher eingetragenen {{ art }}</h2>
+  <ul>
+    {% for kategorie in kategorien %}
+      <li><a href="{% url 'Wettbewerbe:liste_veranstaltungen' %}">{{ kategorie.bezeichnung }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'Grundgeruest/separator.html' with text="Liste aller bisher eingetragenen "|add:art %}
+  <ul>
+    {% for kategorie in kategorien %}
+      <li><a href="{{ kategorie.slug }}">{{ kategorie.bezeichnung }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

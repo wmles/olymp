@@ -1,17 +1,18 @@
-{% extends "Basistemplate.html" %}
+{% extends "base.html" %}
 
 {% block content %}
   <h1> Startseite der Wettbewerbsdatenbank! </h1>
   <p> Hier kommen Sie zu Listen der: </p>
   <ul>
-    {% for seite in unterseiten %}
-      <li> <a href="{{ seite }}">{{ seite }}</a></li>
+    <li><a href="{% url 'Wettbewerbe:liste_veranstaltungen' %}">Veranstaltungen</a></li>
+    <li><a href="{% url 'Wettbewerbe:liste_personen' %}">Personen</a></li>
+    {% for art in kategorien %}
+      <li><a href="{{ art.slug }}">{{ art.plural }}</a></li>
     {% endfor %}
   </ul>
-  <p> 
-    tertiam non olet: {% lorem 47 w random %}. 
-    <br> {% lorem 81 w random %}. 
+  <p>
+    tertiam non olet: {% lorem 46 w %}!
+    <br> {% lorem 81 w random %}.
   </p>
 
 {% endblock %}
-

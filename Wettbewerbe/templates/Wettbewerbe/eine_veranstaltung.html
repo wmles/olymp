@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Veranstaltung {{ v.bezeichnung }} ({{ v.gehoert_zu }})</h2>
+  <p>Es sind folgende {{ v.teilnahme_set.count }} Teilnahmen an der Veranstaltung bekannt:</p>
+  <ul>
+    {% for t in v.teilnahme_set.all %}
+      <li>
+        {% if t.person %}
+          <a href="{% url 'Wettbewerbe:eine_person' t.person.slug %}">{{ t.person }}</a>
+        {% else %}
+          {{ t.nur_name }}
+        {% endif %}
+        war als {{ t.art }} dabei
+      </li>
+    {% endfor %}
+    <li><a style="color: gray;" href="person_eintragen/">[neue Teilnahme eintragen]</a></li>
+  </ul>
+{% endblock %}
