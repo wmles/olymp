@@ -4,7 +4,7 @@
 {% include 'Grundgeruest/separator.html' with text="Liste aller bisher eingetragenen "|add:art %}
   <ul>
     {% for kategorie in kategorien %}
-      <li><a href="{{ kategorie.slug }}">{{ kategorie.bezeichnung }}</a></li>
+      <li><a href="{% url 'Wettbewerbe:eine_kategorie' art_kategorie=kategorie.art_kategorie.slug slug=kategorie.slug %}">{{ kategorie.bezeichnung }}</a></li>
     {% endfor %}
   </ul>
 {% endblock %}

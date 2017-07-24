@@ -14,9 +14,9 @@ class IndexView(ListView):
     template_name = 'Wettbewerbe/index.html'
     context_object_name = 'kategorien'
 
-class ListeZuKategorie(ListView):
+class ListeKategorienZuArt(ListView):
     """ Stellt Liste der Objekte einer WettbewerbsKategorie (wobei Person 
-    und Fachbereich hier nicht ganz korrekt als Kategorie mitzählen) dar.
+    und Veranstaltung hier nicht ganz korrekt als Kategorie mitzählen) dar.
 
     Der view sucht eine Liste der entsprechenden Objekte, gibt die Liste und 
     den Namen für die Überschrift zurück """
@@ -35,7 +35,7 @@ class ListeZuKategorie(ListView):
             return Veranstaltung.objects.all()
     
     def get_context_data(self, **kwargs):
-        context = super(ListeZuKategorie, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.model == ArtKategorie:
             context['art'] = self.art.plural
         else:
@@ -55,6 +55,7 @@ class EineVeranstaltung(DetailView):
 class EineKategorie(DetailView):
     template_name = 'Wettbewerbe/eine_kategorie.html'
     context_object_name = 'kategorie'
+    model = WettbewerbsKategorie
 
 
 from .forms import TeilnahmeEintragenFormular

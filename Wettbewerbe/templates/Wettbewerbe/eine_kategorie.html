@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Übersicht zu {{ kategorie.bezeichnung }} ({{ kategorie.art_kategorie }}). </h2>
+  <p> {{ kategorie.beschreibung }} </p>
+  {% lorem 2 p random %}
+  {% if kategorie.wettbewerbskategorie_set.all %}
+  <p>Listus objectus verknüpftus: </p>
+  <ul>
+    {% for k in kategorie.wettbewerbskategorie_set.all %}
+      <li><a href="{% url 'Wettbewerbe:eine_kategorie' art_kategorie=k.art_kategorie.slug slug=k.slug %}">{{ k }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+{% endblock %}

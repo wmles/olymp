@@ -66,7 +66,12 @@ class Teilnahme(MinimalModel):
         else:
             name = self.nur_name
         return '{} - {}'.format(name, self.veranstaltung)
-
+    
+    def save(self):
+        """ todo: hier noch Validierung einbauen; Art der Teilnahme muss 
+        kompatibel sein, von der Art der Veranstaltung erlaubt ...."""
+        super().save()
+        
     class Meta: 
         verbose_name = 'Konkrete Teilnahme'
         verbose_name_plural = 'Konkrete Teilnahmen'

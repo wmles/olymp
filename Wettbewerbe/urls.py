@@ -10,7 +10,7 @@ urlpatterns = [
 
     # alles was mit person beginnt: liste, detail, formular
     url(r'^personen/$', 
-        views.ListeZuKategorie.as_view(
+        views.ListeKategorienZuArt.as_view(
             model=Person,
             template_name = 'Wettbewerbe/liste_personen.html'), 
         name='liste_personen'),
@@ -26,7 +26,7 @@ urlpatterns = [
 
     # alles was mit veranstaltung beginnt: liste, detail, formular
     url(r'^veranstaltungen/$', 
-        views.ListeZuKategorie.as_view(
+        views.ListeKategorienZuArt.as_view(
             model=Veranstaltung, 
             template_name = 'Wettbewerbe/liste_veranstaltungen.html'), 
         name='liste_veranstaltungen'),
@@ -44,8 +44,8 @@ urlpatterns = [
     url(r'^(?P<art_kategorie>[\w-]+)/(?P<slug>[\w-]+)/$', 
         views.EineKategorie.as_view(), 
         name='eine_kategorie'),
-    url(r'^(?P<art_kategorie>[\w-]+)/$', 
-        views.ListeZuKategorie.as_view(model=ArtKategorie), 
+    url(r'^(?P<art_kategorie>[\w-]+)/$',  
+        views.ListeKategorienZuArt.as_view(model=ArtKategorie), 
         name='liste_kategorie'),
 
 
