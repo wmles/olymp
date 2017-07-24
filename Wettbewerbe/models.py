@@ -9,12 +9,14 @@ Die Datenmodelle für die Wettbewerbsdatenbank
 
 from django.db import models
 from seite import settings
-from Grundgeruest.models import Grundklasse
+from Grundgeruest.models import Grundklasse, MinimalModel
 
 
 class ArtTeilnahme(Grundklasse):
     """ Bezeichnung der Art: xy.Preis, Organisator, etc """
-    class Meta: verbose_name_plural = 'Arten der Teilnahme'
+    class Meta: 
+        verbose_name = 'Teilnahmeart'
+        verbose_name_plural = 'Teilnahmearten'
 
 class ArtVeranstaltung(Grundklasse):
     """ Bezeichnung der Art: Seminar, Olympiaderunde, etc 
@@ -22,7 +24,9 @@ class ArtVeranstaltung(Grundklasse):
     Bestimmt darüber, welche Teilnahmearten es gibt
     """
     teilnahmearten = models.ManyToManyField(ArtTeilnahme) 
-    class Meta: verbose_name_plural = 'Arten der Veranstaltungen'
+    class Meta: 
+        verbose_name = 'Art von Veranstaltungen'
+        verbose_name_plural = 'Arten von Veranstaltungen'
 
 class Veranstaltung(Grundklasse):
     """ Eine konkrete Veranstaltung: Seminar, Wettbewerbsrunde, etc. """
@@ -35,16 +39,18 @@ class Veranstaltung(Grundklasse):
 class Person(Grundklasse):
     """ Alle Attribute einer Person, später: Verknüpfung zu User """
     veranstaltungen = models.ManyToManyField(Veranstaltung, through='Teilnahme')
-    nutzer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    nutzer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     class Meta: verbose_name_plural = 'Personen'
     
-
-class Teilnahme(Grundklasse):
-    """ Wie konkret hat die Person an der Veranstaltung teilgenommen """
+class Teilnahme(MinimalModel):
+    """ Verknüpft Person mit Veranstaltung, gehört zu einer Art """
     person = models.ForeignKey(
         Person,
         on_delete=models.SET_NULL,
-        null=True)
+        null=True, blank=True)
+    nur_name = models.CharField( # falls Person nicht eingetragen, nur str
+        max_length=100, 
+        blank=True)
     veranstaltung = models.ForeignKey(
         Veranstaltung,
         on_delete=models.SET_NULL,
@@ -55,9 +61,16 @@ class Teilnahme(Grundklasse):
         null=True)
 
     def __str__(self):
-        return '{} - {}'.format(self.person, self.veranstaltung)
+        if self.person:
+            name = self.person
+        else:
+            name = self.nur_name
+        return '{} - {}'.format(name, self.veranstaltung)
 
-    class Meta: verbose_name_plural = 'Konkrete Teilnahmen'
+    class Meta: 
+        verbose_name = 'Konkrete Teilnahme'
+        verbose_name_plural = 'Konkrete Teilnahmen'
+
 
 class WettbewerbsKategorie(Grundklasse):
     """ Der Grundbaustein aller Logik der Wettbewerbsstruktur
@@ -76,7 +89,9 @@ class WettbewerbsKategorie(Grundklasse):
         return '{}: {}'.format(
             self.art_kategorie.bezeichnung, self.bezeichnung)
 
-    class Meta: verbose_name_plural = 'Wettbewerbskategorien'
+    class Meta: 
+        verbose_name = 'Wettbewerbskategorie'
+        verbose_name_plural = 'Wettbewerbskategorien'
 
 class ArtKategorie(Grundklasse):
     """ Die zur Auswahl stehenden Arten: Fachbereich, Wettbewerbsrunde """
@@ -84,7 +99,7 @@ class ArtKategorie(Grundklasse):
     class Meta: verbose_name_plural = 'Arten der Wettbewerbskategorien'
 
 
-class Unterseite(Grundklasse): # ist das eine Sackgasse?
+class Unterseite(Grundklasse): # erstmal ohne das, ist das eine Sackgasse?
     """ Der Grundbaustein der Logik der Anzeige; abseits restlicher Daten
     """
     gehoert_zu = models.ForeignKey(
