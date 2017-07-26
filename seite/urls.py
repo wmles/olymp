@@ -24,6 +24,10 @@ urlpatterns = [
     url(r'^nutzer/', include('userena.urls', namespace='')),
     url(r'^olymp/', include('Wettbewerbe.urls')),
 
+    url(r'^impressum/$', 
+        TemplateView.as_view(
+            template_name='impressum.html'), 
+        name='impressum'),
     url(r'^$', 
         TemplateView.as_view(
             template_name='Grundgeruest/base.html'), 
