@@ -7,9 +7,13 @@ Die Datenmodelle für die Wettbewerbsdatenbank
  - Verknüpfungen zwischen Veranstaltungen sind indirekt über Kategorien
 """
 
+from django.core.exceptions import ValidationError
+
 from django.db import models
 from seite import settings
 from Grundgeruest.models import Grundklasse, MinimalModel
+
+import ipdb
 
 
 class ArtTeilnahme(Grundklasse):
@@ -66,10 +70,16 @@ class Teilnahme(MinimalModel):
         else:
             name = self.nur_name
         return '{} - {}'.format(name, self.veranstaltung)
-    
+
     def save(self):
         """ todo: hier noch Validierung einbauen; Art der Teilnahme muss 
         kompatibel sein, von der Art der Veranstaltung erlaubt ...."""
+        if self.nur_name and self.person:
+            raise(ValidationError("Es darf nur Person *oder* nur_name eingetragen sein!"))
+        
+        if not self.art in self.veranstaltung.art.teilnahmearten.all():
+            raise(ValidationError("Art der Teilnahme muss von der Veranstaltung erlaubt sein!"))            
+        
         super().save()
         
     class Meta: 
