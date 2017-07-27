@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^nutzer/', include('userena.urls', namespace='')),
     url(r'^olymp/', include('Wettbewerbe.urls')),
     url(r'^ehemalige/', include('Ehemalige.urls')),
+    url(r'^todo/', include('Notizen.urls')),
 
     url(r'^impressum/$', 
         TemplateView.as_view(
