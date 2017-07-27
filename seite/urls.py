@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^nutzer/', include('userena.urls', namespace='')),
     url(r'^olymp/', include('Wettbewerbe.urls')),
+    url(r'^ehemalige/', include('Ehemalige.urls')),
 
     url(r'^impressum/$', 
         TemplateView.as_view(

@@ -70,12 +70,13 @@ def knoepfe_menü(user):
     alle = {
         'index': ('/', 'Startseite'), 
         'olymp': (reverse('Wettbewerbe:index'), 'Wettbewerbe'), 
+        'ehemalige': (reverse('Ehemalige:index'), 'Ehemalige'),
         'spam': ('spam', 'spam'), 
         'impressum': (reverse('impressum'), 'Impressum'),
     }
     
     if user.username == 'admin':
-        return [alle[name] for name in ('index', 'olymp', 'spam')]        
+        return [alle[name] for name in ('index', 'olymp', 'ehemalige', 'spam')]        
     else:
         return [alle[name] for name in ('index', 'olymp', 'impressum')]
         

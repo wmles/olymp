@@ -1,7 +1,8 @@
 *.pyc
 *.*~
 /venv/
-/env/
+/env2/
 /static/
 /media/
 *.sqlite3
+Hinweise*.txt
