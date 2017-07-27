@@ -7,7 +7,7 @@
     <li><a href="{% url 'Wettbewerbe:liste_veranstaltungen' %}">Veranstaltungen</a></li>
     <li><a href="{% url 'Wettbewerbe:liste_personen' %}">Personen</a></li>
     {% for art in kategorien %}
-      <li><a href="{{ art.slug }}">{{ art.plural }}</a></li>
+      <li><a href="{{ art.plural.lower }}">{{ art.plural }}</a></li>
     {% endfor %}
   </ul>
   <p>

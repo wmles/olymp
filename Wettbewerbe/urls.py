@@ -40,15 +40,16 @@ urlpatterns = [
             name='eine_veranstaltung'),
     ])),
 
-    # weiß nicht ob das sinnvoll:
+    # Kategorien: Listen unter <art.plural>/, Detail <art.slug>/<kat.slug>/
     url(r'^(?P<art_kategorie>[\w-]+)/(?P<slug>[\w-]+)/$', 
         views.EineKategorie.as_view(), 
         name='eine_kategorie'),
-    url(r'^(?P<art_kategorie>[\w-]+)/$',  
+    url(r'^(?P<plural_kategorie>[\w-]+)/$',  
         views.ListeKategorienZuArt.as_view(model=ArtKategorie), 
         name='liste_kategorie'),
 
-
+    
+    # wird hoffentlich nie erreicht, wäre nur bei 3.Ebene-Verschachtelung
     url(r'^([\w-]+)/(.+)', 
         views.rest, 
         name='spam'),

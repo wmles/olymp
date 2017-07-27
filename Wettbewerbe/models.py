@@ -110,6 +110,8 @@ class WettbewerbsKategorie(Grundklasse):
 
 class ArtKategorie(Grundklasse):
     """ Die zur Auswahl stehenden Arten: Fachbereich, Wettbewerbsrunde """
-    plural = models.CharField(max_length=30, null=True)
-    class Meta: verbose_name_plural = 'Arten der Wettbewerbskategorien'
+    plural = models.CharField(max_length=30)
+    class Meta: 
+        verbose_name = 'Art von Wettbewerbskategorien'
+        verbose_name_plural = 'Arten der Wettbewerbskategorien'
 
