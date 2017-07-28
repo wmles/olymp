@@ -10,7 +10,6 @@ from .models import *
 admin.site.register(ArtTeilnahme)
 admin.site.register(ArtVeranstaltung)
 admin.site.register(WettbewerbsKategorie)
-admin.site.register(Unterseite)
 
 
 class TeilnahmeForm(ModelForm):

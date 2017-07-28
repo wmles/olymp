@@ -24,10 +24,12 @@ class ListeKategorienZuArt(ListView):
     context_object_name = 'kategorien'
     
     def get_queryset(self):
+        """ bekommt von der urls.py einen kwarg model übergeben, damit alle 
+        Listen in einem view bearbeitet werden können (eleganter?) """
         if self.model == ArtKategorie:
             self.art = get_object_or_404(
                 ArtKategorie, 
-                slug=self.kwargs['art_kategorie'])
+                plural=self.kwargs['plural_kategorie'].capitalize())
             return WettbewerbsKategorie.objects.filter(art_kategorie=self.art)
         elif self.model == Person:
             return Person.objects.all()

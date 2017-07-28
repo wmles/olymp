@@ -68,7 +68,7 @@ class Teilnahme(MinimalModel):
         if self.person:
             name = self.person
         else:
-            name = self.nur_name
+            name = self.nur_name 
         return '{} - {}'.format(name, self.veranstaltung)
 
     def save(self):
@@ -110,18 +110,8 @@ class WettbewerbsKategorie(Grundklasse):
 
 class ArtKategorie(Grundklasse):
     """ Die zur Auswahl stehenden Arten: Fachbereich, Wettbewerbsrunde """
-    plural = models.CharField(max_length=30, null=True)
-    class Meta: verbose_name_plural = 'Arten der Wettbewerbskategorien'
+    plural = models.CharField(max_length=30)
+    class Meta: 
+        verbose_name = 'Art von Wettbewerbskategorien'
+        verbose_name_plural = 'Arten der Wettbewerbskategorien'
 
-
-class Unterseite(Grundklasse): # erstmal ohne das, ist das eine Sackgasse?
-    """ Der Grundbaustein der Logik der Anzeige; abseits restlicher Daten
-    """
-    gehoert_zu = models.ForeignKey(
-        'Unterseite', 
-        null=True) # für die eine top-Level-Seite
-    template_name = models.CharField(
-        max_length=40, 
-        null=True, blank=True)
-    class Meta: verbose_name_plural = 'Unterseiten'
-    

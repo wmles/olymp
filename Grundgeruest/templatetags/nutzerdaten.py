@@ -5,8 +5,8 @@ register = template.Library()
 
 @register.inclusion_tag('Grundgeruest/kopfzeile_knopf.html')
 def kopfleiste_knoepfe(user):
-    """ gibt ein dict zurück, in dem die Liste der url-text-Paare für die
-    Knöpfe der Kopfleiste steht """
+    """ Der tag erwartet von der Funktion ein dict, in dem die Liste der 
+    url-text-Paare für die Knöpfe der Kopfleiste steht """
     
     return {'knoepfe': Nutzer.knoepfe_kopf(user)}
 

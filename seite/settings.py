@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Grundgeruest',
     'Wettbewerbe',
+    'Ehemalige',
+    'Notizen',
 
     'django.contrib.admin',
     'django.contrib.auth',
