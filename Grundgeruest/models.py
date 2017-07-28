@@ -73,10 +73,11 @@ def knoepfe_menü(user):
         'ehemalige': (reverse('Ehemalige:index'), 'Ehemalige'),
         'spam': ('spam', 'spam'), 
         'impressum': (reverse('impressum'), 'Impressum'),
+        'db': ('https://olymp.piokg.de/static/db.pdf', 'Datenbanklayout'), # quick and very dirty :)
     }
     
     if user.username == 'admin':
-        return [alle[name] for name in ('index', 'olymp', 'ehemalige', 'spam')]        
+        return [alle[name] for name in ('index', 'olymp', 'ehemalige', 'spam', 'db')]
     else:
         return [alle[name] for name in ('index', 'olymp', 'impressum')]
         
