@@ -12,7 +12,6 @@ import ipdb
 
 class Liste(Grundklasse):
     """ Attribute einer Liste """
-    nutzer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
     class Meta:
         verbose_name = 'Notizzettel'
         verbose_name_plural = 'Notizzettel'
@@ -23,6 +22,9 @@ class Zeile(MinimalModel):
     autor = models.ForeignKey(settings.AUTH_USER_MODEL)
     autor_name = models.CharField(max_length=30, blank=True)
     text = models.CharField(max_length=255)
+    def autor_ausgeben(self):
+        return str(self.autor) + ' - ' + self.autor_name
+        
     def __str__(self):
         return 'Notiz in %s von %s' % (self.liste.bezeichnung, self.zeit_geaendert)
     

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> Provisorischer Notizzettel </h2>
+
+<div class="notizzettel">
+
+<h3> Neue Zeile eintragen </h3>
+<form action="" method="post" class="notizzettel_formular">
+  <div> Autor: {{ form.autor_name }} </div>
+  <div> Nachricht: {{ form.text }} </div>
+  <input class="w3-theme-d1" type="submit" value="Eintragen" />
+  {% csrf_token %}
+</form>
+
+{% for zeile in liste %}
+  {% include 'Notizen/liste_zeile.html' %}
+{% endfor %}
+</div>
+
+{% endblock %}

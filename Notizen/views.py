@@ -1,6 +1,6 @@
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 from django.views.generic.edit import CreateView
-from django import forms as django_forms
 from . import models
 import ipdb
 
@@ -8,25 +8,31 @@ import ipdb
 
 class ZeigenUndEintragen(CreateView):
     """ zeigt die bisher einzige Liste an """
-    template_name = 'Notizen/index.html'
+    template_name = 'Notizen/liste.html'
     model = models.Zeile
-    fields = ['autor', 'autor_name', 'text']
+    fields = ['autor_name', 'text']
     context_object_name = 'liste'
+    
+    def get_success_url(self, *args, **kwargs):
+        return reverse('Notizen:liste')
 
     def render_to_response(self, context, **kwargs):
         """ Gibt eine Instanz von TemplateResponse zurück
         ich übergebe der zusätzlich eine Liste aller Zeilen; später nur die 
-        zugehörigen zu einer models.Liste, außerdem wird die Eingabe des Autors
-        versteckt, da die automatisch passiert """
+        zugehörigen zu einer models.Liste """
         response = super().render_to_response(context, **kwargs)
         # übergebe Liste von Zeilen
         response.context_data.update([
             ('liste', models.Zeile.objects.all())
         ])
-        # form.autor verstecken, der wird in self.form_valid automatisch gesetzt
-        form = response.context_data['form']
-        form.fields['autor'].widget = django_forms.HiddenInput()
-        ipdb.set_trace()
-        form.fields['autor'] = self.request.user
         return response
-    
+        
+    def form_valid(self, form):
+        """ Setzt autor und liste für die Notizzeile.
+        form.instance wurde vor dem Aufrufen davon erstellt, nur noch nicht
+        in die db geschrieben (wär ja auch nicht valide); vorher müssen die 
+        null=False-Felder gesetzt werden """
+        form.instance.autor_id = self.request.user.pk
+        form.instance.liste_id = int(self.kwargs['liste_id'])
+        form.instance.save()
+        return super().form_valid(form)

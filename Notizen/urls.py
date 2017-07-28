@@ -5,5 +5,8 @@ from . import views
 app_name = 'Notizen'
 
 urlpatterns = [
-    url(r'^$', views.ZeigenUndEintragen.as_view(), name='liste'),
+    url(r'^$', 
+        views.ZeigenUndEintragen.as_view(),
+        {'liste_id': 1},
+        name='liste'),
 ]
