@@ -6,3 +6,4 @@
 /media/
 *.sqlite3
 Hinweise*.txt
+local_*

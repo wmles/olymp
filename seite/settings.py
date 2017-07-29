@@ -111,7 +111,7 @@ USERENA_SIGNIN_REDIRECT_URL = '/nutzer/%(username)s/'
 LOGIN_URL = '/nutzer/signin/'
 LOGOUT_URL = '/nutzer/signout/'
 
-SITE_ID = 1 # für localhost in der ursprünglichen DB
+SITE_ID = 2 # für localhost in der ursprünglichen DB
 
 
 # Password validation
