@@ -6,13 +6,15 @@
   <ul>
     {% for t in person.teilnahme_set.all %}
       <li>
-        {{ person }} war bei 
+        {{ person }} war bei
         <a href="{% url 'Wettbewerbe:eine_veranstaltung' slug=t.veranstaltung.slug %}">
           {{ t.veranstaltung }}
-        </a> 
+        </a>
         als {{ t.art }} dabei
       </li>
     {% endfor %}
-    <li><a style="color: gray;" href="veranstaltung_eintragen/">[neue Teilnahme eintragen]</a></li>      
+    {% if request.user.username == 'admin' %}
+      <li><a style="color: gray;" href="veranstaltung_eintragen/">[neue Teilnahme eintragen]</a></li>      
+    {% endif %}
   </ul>
 {% endblock %}

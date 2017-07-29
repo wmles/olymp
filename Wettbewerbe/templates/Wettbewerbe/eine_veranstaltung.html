@@ -14,6 +14,8 @@
         war als {{ t.art }} dabei
       </li>
     {% endfor %}
-    <li><a style="color: gray;" href="person_eintragen/">[neue Teilnahme eintragen]</a></li>
+    {% if request.user.username == 'admin' %}
+      <li><a style="color: gray;" href="person_eintragen/">[neue Teilnahme eintragen]</a></li>
+    {% endif %}
   </ul>
 {% endblock %}

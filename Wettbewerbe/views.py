@@ -66,6 +66,9 @@ from .forms import TeilnahmeEintragenFormular
 def teilnahme_eintragen(request, model='Person', slug=''):
     """ der view sendet ein Formular zur Erstellung einer Teilnahme an 
     das entsprechende Template oder nimmt POST-Daten zum Speichern an """    
+    if not request.user.username == 'admin':
+        return HttpResponseRedirect('/admin/')
+
     # falls POST von hier, werden Daten verarbeitet:
     if request.method=='POST':
         # eine form erstellen, insb. um sie im Fehlerfall zu nutzen:
