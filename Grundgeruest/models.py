@@ -79,7 +79,7 @@ def knoepfe_menü(user):
     if user.username == 'admin':
         return [alle[name] for name in ('index', 'olymp', 'ehemalige', 'spam', 'db')]
     else:
-        return [alle[name] for name in ('index', 'olymp', 'impressum')]
+        return [alle[name] for name in ('index', 'olymp', 'db', 'impressum')]
         
 
 class Nutzer(AbstractUser):
@@ -106,7 +106,7 @@ class Nutzer(AbstractUser):
         verbose_name = 'Nutzer'
     
     def __str__(self):
-        return 'Nutzer %s %s (%s)' % (self.first_name, self.last_name, self.email)
+        return 'Nutzer %s (%s)' % (self.username, self.email)
     
 
 class Nutzerprofil(UserenaBaseProfile):
@@ -116,8 +116,8 @@ class Nutzerprofil(UserenaBaseProfile):
                                 related_name='my_profile')
     geschlecht = models.CharField(
         max_length=1,
-        choices=[('weiblich', 'w'), ('männlich', 'm'), ('sonstiges', '')],
-        default='m')
+        choices=[('w', 'weiblich'), ('m', 'männlich'), ('', 'sonstiges')],
+        default='')
     tel = models.CharField(
         max_length=20,
         null=True, blank=True)
