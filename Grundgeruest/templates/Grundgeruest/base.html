@@ -17,7 +17,7 @@
         {% block content %}
         <h1>Startseite</h1>
         <p>
-          <a href="olymp"> zu den Wettbewerben </a>
+          <a href="{% url 'Wettbewerbe:index' %}"> zu den Wettbewerben </a>
         </p>
          {% include 'Grundgeruest/separator.html' with text='Spam' %}
         <p><br>

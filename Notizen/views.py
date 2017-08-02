@@ -32,7 +32,7 @@ class ZeigenUndEintragen(CreateView):
         form.instance wurde vor dem Aufrufen davon erstellt, nur noch nicht
         in die db geschrieben (wär ja auch nicht valide); vorher müssen die 
         null=False-Felder gesetzt werden """
-        form.instance.autor_id = self.request.user.pk
+        form.instance.autor_id = self.request.user.pk or 1 # für Anonymous
         form.instance.liste_id = int(self.kwargs['liste_id'])
         form.instance.save()
         return super().form_valid(form)

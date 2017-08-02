@@ -23,8 +23,14 @@ class Zeile(MinimalModel):
     autor_name = models.CharField(max_length=30, blank=True)
     text = models.CharField(max_length=255)
     def autor_ausgeben(self):
-        return str(self.autor) + ' - ' + self.autor_name
-        
+        """ System: es wird immer der eingetragene Name angegeben; wenn der
+        Autor unangemeldet war, dann mit (Gast) """
+        if self.autor_id == 1: # wenn anonym
+            return self.autor_name + ' (Gast)'
+        else:
+            return '<a href="/nutzer/%s">%s</a>' % (self.autor.username, self.autor_name)
+            
+            
     def __str__(self):
         return 'Notiz in %s von %s' % (self.liste.bezeichnung, self.zeit_geaendert)
     
