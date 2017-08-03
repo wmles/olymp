@@ -6,4 +6,5 @@ app_name = 'Ehemalige'
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^eintragen/$', views.EintragenView.as_view(), name='eintragen'),
 ]

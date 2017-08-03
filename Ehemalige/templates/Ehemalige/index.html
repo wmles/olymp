@@ -5,5 +5,9 @@
   <p>
     {% lorem 46 w %} - das spammus est! <br> {% lorem 81 w random %}.
   </p>
+  {% include 'Grundgeruest/separator.html' with text='Ehemalige' %}
+  {% for e in ehemalige %}
+    <p>{{ e.bezeichnung }} ist gerade in {{ e.ort }} als {{ e.taetigkeit }}. <br> Lebenslauf: <br> {{ e.lebenslauf }}</p>
+  {% endfor %}
 
 {% endblock %}

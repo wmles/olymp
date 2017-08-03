@@ -4,7 +4,6 @@ from django.views.generic.edit import CreateView
 from . import models
 import ipdb
 
-# Create your views here.
 
 class ZeigenUndEintragen(CreateView):
     """ zeigt die bisher einzige Liste an """

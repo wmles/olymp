@@ -30,7 +30,6 @@ class Zeile(MinimalModel):
         else:
             return '<a href="/nutzer/%s">%s</a>' % (self.autor.username, self.autor_name)
             
-            
     def __str__(self):
         return 'Notiz in %s von %s' % (self.liste.bezeichnung, self.zeit_geaendert)
     

@@ -41,10 +41,12 @@ class Veranstaltung(Grundklasse):
     class Meta: verbose_name_plural = 'Veranstaltungen'
 
 class Person(Grundklasse):
-    """ Alle Attribute einer Person, später: Verknüpfung zu User """
+    """ DB-Eintrag für eine Person; ist das gut, dass die Bezeichnung von
+    den Attributen vom Nutzer distinkt ist? """
     veranstaltungen = models.ManyToManyField(Veranstaltung, through='Teilnahme')
     nutzer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
-    class Meta: verbose_name_plural = 'Personen'
+    class Meta: 
+        verbose_name_plural = 'Personen'
     
 class Teilnahme(MinimalModel):
     """ Verknüpft Person mit Veranstaltung, gehört zu einer Art """
