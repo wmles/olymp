@@ -43,8 +43,11 @@ class Veranstaltung(Grundklasse):
 class Person(Grundklasse):
     """ DB-Eintrag für eine Person; ist das gut, dass die Bezeichnung von
     den Attributen vom Nutzer distinkt ist? """
-    veranstaltungen = models.ManyToManyField(Veranstaltung, through='Teilnahme')
-    nutzer = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True)
+    veranstaltungen = models.ManyToManyField(
+        Veranstaltung, through='Teilnahme')
+    nutzer = models.OneToOneField(
+        settings.AUTH_PROFILE_MODULE, 
+        null=True, blank=True)
     class Meta: 
         verbose_name_plural = 'Personen'
     
@@ -74,8 +77,8 @@ class Teilnahme(MinimalModel):
         return '{} - {}'.format(name, self.veranstaltung)
 
     def save(self):
-        """ todo: hier noch Validierung einbauen; Art der Teilnahme muss 
-        kompatibel sein, von der Art der Veranstaltung erlaubt ...."""
+        """ Führt vor dem save() Validierung durch 
+        Es fehlt noch Eindeutigkeit, nur 1 Teilnahme pro Person-Veranstaltung-Paar """
         if self.nur_name and self.person:
             raise(ValidationError("Es darf nur Person *oder* nur_name eingetragen sein!"))
         
