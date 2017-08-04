@@ -76,7 +76,7 @@ class Teilnahme(MinimalModel):
             name = self.nur_name 
         return '{} - {}'.format(name, self.veranstaltung)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         """ Führt vor dem save() Validierung durch 
         Es fehlt noch Eindeutigkeit, nur 1 Teilnahme pro Person-Veranstaltung-Paar """
         if self.nur_name and self.person:
@@ -85,7 +85,7 @@ class Teilnahme(MinimalModel):
         if not self.art in self.veranstaltung.art.teilnahmearten.all():
             raise(ValidationError("Art der Teilnahme muss von der Veranstaltung erlaubt sein!"))            
         
-        super().save()
+        super().save(*args, **kwargs)
         
     class Meta: 
         verbose_name = 'Konkrete Teilnahme'

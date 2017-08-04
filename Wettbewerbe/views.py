@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView
 from .models import *
 
 class IndexView(ListView):
@@ -59,6 +60,35 @@ class EineKategorie(DetailView):
     context_object_name = 'kategorie'
     model = WettbewerbsKategorie
 
+
+# *** views zum Eintragen ***
+ 
+class EintragenTeilnahmeMich(CreateView):
+    template_name = 'Wettbewerbe/formular_mich_eintragen.html'
+    model = Teilnahme
+    fields = ['art']
+    
+    def get_success_url(self):
+        return reverse('Wettbewerbe:eine_veranstaltung', kwargs=self.kwargs)
+         
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        veranstaltung = get_object_or_404(Veranstaltung, slug=self.kwargs['slug'])
+        person = self.request.user.my_profile.person # könnte None sein 
+        if not person:
+            return HttpResponseRedirect("/BitteFormularZurErstellungDerPersonMachenOderOnCreateVomProfilErstellen/")
+        instanz = Teilnahme(
+            veranstaltung=veranstaltung, 
+            person=person)
+        kwargs.update([('instance', instanz)])
+        return kwargs
+    
+    def get_form(self, **kwargs):
+        form = super().get_form(**kwargs)
+        form.fields['art'].queryset = \
+            form.instance.veranstaltung.art.teilnahmearten.all()
+        return form
+            
 
 from .forms import TeilnahmeEintragenFormular
 

@@ -31,10 +31,13 @@ urlpatterns = [
             template_name = 'Wettbewerbe/liste_veranstaltungen.html'), 
         name='liste_veranstaltungen'),
     url(r'^veranstaltung/', include([ 
-        url(r'^(?P<slug>[\w-]+)/person_eintragen/$', 
+        url(r'^(?P<slug>[\w-]+)/person_eintragen/$', # bisher für admin
             views.teilnahme_eintragen,
             {'model': 'Veranstaltung'}, 
-            name='eine_veranstaltung_formular'),
+            name='formular_veranstaltung'),
+        url(r'^(?P<slug>[\w-]+)/mich_eintragen/$', # jeder nur sich
+            views.EintragenTeilnahmeMich.as_view(),
+            name='formular_veranstaltung_mich'),
         url(r'^(?P<slug>[\w-]+)/$', 
             views.EineVeranstaltung.as_view(), 
             name='eine_veranstaltung'),
