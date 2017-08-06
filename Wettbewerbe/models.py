@@ -88,6 +88,7 @@ class Teilnahme(MinimalModel):
         super().save(*args, **kwargs)
         
     class Meta: 
+        unique_together = ('person', 'veranstaltung')
         verbose_name = 'Konkrete Teilnahme'
         verbose_name_plural = 'Konkrete Teilnahmen'
 
