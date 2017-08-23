@@ -35,6 +35,7 @@ class ArtVeranstaltung(Grundklasse):
 class Veranstaltung(Grundklasse):
     """ Eine konkrete Veranstaltung: Seminar, Wettbewerbsrunde, etc. """
     art = models.ForeignKey(ArtVeranstaltung)
+    beschreibung = models.TextField(default='')
     gehoert_zu = models.ForeignKey(
         "WettbewerbsKategorie", 
         blank=True, null=True)
@@ -94,7 +95,7 @@ class Teilnahme(MinimalModel):
 
 
 class WettbewerbsKategorie(Grundklasse):
-    """ Der Grundbaustein aller Logik der Wettbewerbsstruktur
+    """ Knoten vom Baum der Wettbewerbsstruktur
     
     Je nach art_kategorie können beliebige Objekte gemeint sein, von einer
     einzelnen Wettbewerbsrunde bis zum Fachbereich. Kategorien beziehen 
@@ -104,7 +105,7 @@ class WettbewerbsKategorie(Grundklasse):
     gehoert_zu = models.ForeignKey(
         "WettbewerbsKategorie", 
         blank=True, null=True)
-    beschreibung = models.TextField()
+    beschreibung = models.TextField(default='')
     
     def __str__(self): 
         return '{}: {}'.format(
