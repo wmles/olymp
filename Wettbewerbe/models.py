@@ -24,7 +24,8 @@ class ArtTeilnahme(Grundklasse):
         verbose_name = 'Teilnahmeart'
         verbose_name_plural = 'Teilnahmearten'
 
-    g_hat_teilgenommen = models.CharField(max_length=100, default='')
+    g_hat_teilgenommen = models.CharField(max_length=100, default='', 
+        verbose_name='Grammatik: "hat teilgenommen"')
 
 class ArtVeranstaltung(Grundklasse):
     """ Bezeichnung der Art: Seminar, Olympiaderunde, etc 
@@ -72,7 +73,8 @@ class Teilnahme(MinimalModel):
     art = models.ForeignKey(
         ArtTeilnahme,
         on_delete=models.SET_NULL,
-        null=True)
+        null=True, 
+        default=ArtTeilnahme.objects.get(bezeichnung='Teilnahme'))
 
     def __str__(self):
         if self.person:
