@@ -2,6 +2,7 @@
 
 {% block content %}
   <h2>Veranstaltung {{ v.bezeichnung }} ({{ v.gehoert_zu }})</h2>
+  <p>{{ v.beschreibung }}</p>
   <p>Es sind folgende {{ v.teilnahme_set.count }} Teilnahmen an der Veranstaltung bekannt:</p>
   <ul>
     {% for t in v.teilnahme_set.all %}
