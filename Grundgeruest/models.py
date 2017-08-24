@@ -57,13 +57,18 @@ def knoepfe_kopf(user):
     profil = lambda nutzer: (reverse('userena_profile_detail', 
                     kwargs={'username': nutzer.username}), 'Profil') 
     spam = ('spam', 'spam') 
+    admin = ('/admin/', 'admin')
     
     if user.username == 'admin':
-        return [abmelden, profil(user), spam]        
+        liste = [abmelden, profil(user), spam]        
     elif user.is_authenticated():
-        return [abmelden, profil(user)]
+        liste = [abmelden, profil(user)]
     else:
-        return [anmelden, registrieren]
+        liste = [anmelden, registrieren]
+    if user.is_staff and user.get_all_permissions():
+        liste.append(admin)
+    
+    return liste
 
 def knoepfe_menü(user):
     """ gibt Knöpfe für Menüleiste als Liste von Tupeln zurück """
