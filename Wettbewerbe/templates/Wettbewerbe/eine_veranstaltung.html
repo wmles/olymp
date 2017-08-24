@@ -11,7 +11,7 @@
         {% else %}
           {{ t.nur_name }}
         {% endif %}
-        war als {{ t.art }} dabei
+        {{ t.art.g_hat_teilgenommen }}
       </li>
     {% endfor %}
     {% if request.user.username == 'admin' %}

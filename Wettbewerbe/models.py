@@ -5,6 +5,8 @@ Die Datenmodelle für die Wettbewerbsdatenbank
  - Veranstaltung kann Wettbewerbsrunde oder Seminar sein
  - Parallel gibt es Beschreibungen von Wettbewerben, sinnvoll gruppiert
  - Verknüpfungen zwischen Veranstaltungen sind indirekt über Kategorien
+
+ - alles, was mit g_ beginnt, sind grammatische Feinheiten
 """
 
 from django.core.exceptions import ValidationError
@@ -21,6 +23,8 @@ class ArtTeilnahme(Grundklasse):
     class Meta: 
         verbose_name = 'Teilnahmeart'
         verbose_name_plural = 'Teilnahmearten'
+
+    g_hat_teilgenommen = models.CharField(max_length=100, default='')
 
 class ArtVeranstaltung(Grundklasse):
     """ Bezeichnung der Art: Seminar, Olympiaderunde, etc 
