@@ -74,9 +74,15 @@ class EintragenTeilnahmeMich(CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         veranstaltung = get_object_or_404(Veranstaltung, slug=self.kwargs['slug'])
-        person = self.request.user.my_profile.person # könnte None sein 
-        if not person:
-            return HttpResponseRedirect("/BitteFormularZurErstellungDerPersonMachenOderOnCreateVomProfilErstellen/")
+        profil = self.request.user.my_profile
+        if hasattr(profil, 'person'):
+            person = profil.person
+        else:
+            # quick and dirty implementation von Person erstellen
+            pass
+            person = Person.objects.create(
+                nutzer=profil, 
+                bezeichnung='%s %s' % (profil.user.first_name, profil.user.last_name))
         instanz = Teilnahme(
             veranstaltung=veranstaltung, 
             person=person)
