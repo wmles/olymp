@@ -121,8 +121,8 @@ class Nutzerprofil(UserenaBaseProfile):
                                 related_name='my_profile')
     geschlecht = models.CharField(
         max_length=1,
-        choices=[('w', 'weiblich'), ('m', 'männlich'), ('', 'sonstiges')],
-        default='')
+        choices=[('w', 'weiblich'), ('m', 'männlich'), (' ', 'sonstiges')],
+        default=' ')
     tel = models.CharField(
         max_length=20,
         null=True, blank=True)
