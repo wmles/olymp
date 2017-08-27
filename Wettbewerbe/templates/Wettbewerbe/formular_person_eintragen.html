@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <p>
+    Zu Ihrem Nutzerprofil mit der eMail-Adresse {{ request.user.email }} ist noch keine Person erstellt;
+    die automatische Erstellung ist nicht möglich, weil Sie nicht Ihren Vor- und Nachnamen angegeben haben.
+    Bitte geben Sie diese Daten an, dann wird eine Person generiert und die Namen in Ihrem Profil gespeichert.
+  </p>
+  <form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Person eintragen!">
+  </form>
+{% endblock content %}

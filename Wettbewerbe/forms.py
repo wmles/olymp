@@ -7,11 +7,10 @@ class TeilnahmeEintragenFormular(forms.ModelForm):
     class Meta:
         model = Teilnahme
         fields = ['person', 'nur_name', 'veranstaltung', 'art']
-        # widgets = {'land': CountrySelectWidget()}
     
 
 class TeilnahmeZuVeranstaltung(forms.ModelForm):
-    """ Für admin
+    """ Für admin-Umgebung
     ist aber nicht allgemein, nur im change-view von Teilnahmen sinnvoll
     Nur wenn self.instance schon eine veranstaltung gesetzt hat, werden 
     nur die Teilnahmearten, die dazu passen, angezeigt """

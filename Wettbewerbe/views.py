@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView
 from .models import *
@@ -62,42 +63,84 @@ class EineKategorie(DetailView):
 
 
 # *** views zum Eintragen ***
- 
+
+def eintragen_mich_zu_veranstaltung(request, slug):
+    """ prüft, ob eine Person zum Nutzer existiert, und leitet je nachdem
+    an EintragenTeilnahmeMich oder EintragenPersonMich weiter """
+    veranstaltung = get_object_or_404(Veranstaltung, slug=slug)
+    profil = request.user.my_profile
+    if hasattr(profil, 'person') and isinstance(profil.person, Person):
+        person = profil.person
+    elif request.user.first_name and request.user.last_name:
+        # quick and dirty Person erstellen
+        person = Person.objects.create(
+            bezeichnung='{} {}'.format(
+                request.user.first_name, request.user.last_name),
+            nutzer = profil,
+        )
+    else:
+        return EintragenPersonMich.as_view()(request, slug=slug)
+
+    return EintragenTeilnahmeMich.as_view()(request, slug=slug, person=person)
+
+    
 class EintragenTeilnahmeMich(CreateView):
     template_name = 'Wettbewerbe/formular_mich_eintragen.html'
     model = Teilnahme
     fields = ['art']
     
     def get_success_url(self):
-        return reverse('Wettbewerbe:eine_veranstaltung', kwargs=self.kwargs)
+        return reverse(
+            'Wettbewerbe:eine_veranstaltung', 
+            kwargs={'slug': self.kwargs['slug']})
          
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         veranstaltung = get_object_or_404(Veranstaltung, slug=self.kwargs['slug'])
-        profil = self.request.user.my_profile
-        if hasattr(profil, 'person'):
-            person = profil.person
-        else:
-            # quick and dirty implementation von Person erstellen
-            pass
-            person = Person.objects.create(
-                nutzer=profil, 
-                bezeichnung='%s %s' % (profil.user.first_name, profil.user.last_name))
+        person = self.kwargs['person']
         instanz = Teilnahme(
             veranstaltung=veranstaltung, 
             person=person)
         kwargs.update([('instance', instanz)])
         return kwargs
     
-    def get_form(self, **kwargs):
-        form = super().get_form(**kwargs)
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
         form.fields['art'].queryset = \
             form.instance.veranstaltung.art.teilnahmearten.all()
         return form
-            
 
-from .forms import TeilnahmeEintragenFormular
 
+class EintragenPersonMich(CreateView):
+    """ Trägt Vorname und Nachname als Daten vom Nutzer ein und erstellt
+    eine Person mit dieser Bezeichnung """
+    template_name = 'Wettbewerbe/formular_person_eintragen.html'
+    model = get_user_model()
+    fields = ['first_name', 'last_name']
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        nutzer = self.request.user
+        kwargs.update([('instance', nutzer)])
+        return kwargs
+    
+    def get_success_url(self):
+        return reverse('Wettbewerbe:eintragen_veranstaltung_mich', 
+            kwargs={'slug': self.kwargs['slug']})
+    
+    def form_valid(self, form):
+        """ wird aufgerufen, wenn Eingaben ok sind; soll den Nutzer (steht
+        in form.instance) speichern und außerdem eine Person mit diesem 
+        Namen erstellen und dem Nutzerprofil verknüpfen """
+        name = '{} {}'.format(
+            form.instance.first_name, form.instance.last_name)
+        person = Person.objects.create(
+            bezeichnung=name, 
+            nutzer=form.instance.my_profile)
+        self.object = form.save()
+        return super(EintragenPersonMich, self).form_valid(form)
+
+        
 @login_required
 def teilnahme_eintragen(request, model='Person', slug=''):
     """ der view sendet ein Formular zur Erstellung einer Teilnahme an 
