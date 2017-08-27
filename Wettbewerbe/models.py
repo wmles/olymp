@@ -52,7 +52,7 @@ class Person(Grundklasse):
     veranstaltungen = models.ManyToManyField(
         Veranstaltung, through='Teilnahme')
     nutzer = models.OneToOneField(
-        settings.AUTH_PROFILE_MODULE, 
+        settings.AUTH_PROFILE_MODULE,
         null=True, blank=True)
     class Meta: 
         verbose_name_plural = 'Personen'
@@ -61,20 +61,20 @@ class Teilnahme(MinimalModel):
     """ Verknüpft Person mit Veranstaltung, gehört zu einer Art """
     person = models.ForeignKey(
         Person,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True, blank=True)
     nur_name = models.CharField( # falls Person nicht eingetragen, nur str
         max_length=100, 
         blank=True)
     veranstaltung = models.ForeignKey(
         Veranstaltung,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True)
     art = models.ForeignKey(
         ArtTeilnahme,
         on_delete=models.SET_NULL,
         null=True, 
-        default=ArtTeilnahme.objects.get(bezeichnung='Teilnahme'))
+        default=1)
 
     def __str__(self):
         if self.person:
