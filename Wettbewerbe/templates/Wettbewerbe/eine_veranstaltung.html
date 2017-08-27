@@ -5,8 +5,9 @@
   <h2>Veranstaltung {{ v.bezeichnung }} ({{ v.gehoert_zu }})</h2>
   <p>{{ v.beschreibung }}</p>
   <p>Es sind folgende {{ v.teilnahme_set.count }} Teilnahmen an der Veranstaltung bekannt:</p>
+  {% teilnahmen_sortiert v as liste_teilnahmen %}
   <ul>
-    {% for t in v.teilnahme_set.all %}
+    {% for t in liste_teilnahmen %}
       <li>
         {% if t.person %}
           <a href="{% url 'Wettbewerbe:eine_person' t.person.slug %}">{{ t.person }}</a>

@@ -1,5 +1,5 @@
 from django import template
-from Grundgeruest.models import Nutzer
+from Wettbewerbe.models import Teilnahme
 
 import ipdb
 
@@ -19,3 +19,10 @@ def darf_teilnehmen(user, veranstaltung):
             t.veranstaltung for t in 
             user.my_profile.person.teilnahme_set.all()]
         return veranstaltung not in meine_veranstaltungen
+
+@register.simple_tag
+def teilnahmen_sortiert(veranstaltung):
+    """ gibt Liste der Teilnahmen in fancy Sortierung zurück 
+    jetzt nach Art sortieren, später außerdem personen und strings trennen 
+    und vll personen nach Geschlecht sortieren """
+    return Teilnahme.objects.filter(veranstaltung=veranstaltung).order_by('art')
