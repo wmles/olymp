@@ -119,6 +119,12 @@ article {
     position: relative;
 }
 
+/* Für die automatischen django-Formulare */
+
+ul.errorlist li {
+    color: red;
+    margin: 1ex;
+}
 
 /* Notizzettel Zeilen */
 
