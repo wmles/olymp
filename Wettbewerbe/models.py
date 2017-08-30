@@ -44,6 +44,8 @@ class Veranstaltung(Grundklasse):
     gehoert_zu = models.ForeignKey(
         "WettbewerbsKategorie", 
         blank=True, null=True)
+    datum_anfang = models.DateField(null=True, blank=True)
+    datum_ende = models.DateField(null=True, blank=True)
     class Meta: verbose_name_plural = 'Veranstaltungen'
 
 class Person(Grundklasse):
