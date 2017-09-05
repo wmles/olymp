@@ -8,6 +8,8 @@ from . import forms
 admin.site.register(ArtTeilnahme)
 admin.site.register(ArtVeranstaltung)
 admin.site.register(WettbewerbsKategorie)
+admin.site.register(Wettbewerb)
+admin.site.register(Wettbewerbsjahrgang)
 
 
 class TeilnahmeAdmin(admin.ModelAdmin):
