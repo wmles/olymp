@@ -44,6 +44,9 @@ class Veranstaltung(Grundklasse):
     gehoert_zu = models.ForeignKey(
         "WettbewerbsKategorie", 
         blank=True, null=True)
+    jahrgang = models.ForeignKey(
+        "Wettbewerbsjahrgang", 
+        blank=True, null=True)
     datum_anfang = models.DateField(null=True, blank=True)
     datum_ende = models.DateField(null=True, blank=True)
     class Meta: verbose_name_plural = 'Veranstaltungen'
@@ -110,9 +113,9 @@ class WettbewerbsKategorie(Grundklasse):
     sich aufeinander durch gehoert_zu.
     """
     art_kategorie = models.ForeignKey("ArtKategorie")
-    gehoert_zu = models.ForeignKey(
+    gehoert_zu = models.ManyToManyField(
         "WettbewerbsKategorie", 
-        blank=True, null=True)
+        blank=True)
     beschreibung = models.TextField(default='')
     
     def __str__(self): 
@@ -122,6 +125,35 @@ class WettbewerbsKategorie(Grundklasse):
     class Meta: 
         verbose_name = 'Wettbewerbskategorie'
         verbose_name_plural = 'Wettbewerbskategorien'
+
+
+class Wettbewerb(Grundklasse):
+    """ paralleles Konstrukt zum Baum der Kategorien
+    Könnte helfen bei Sebastians Übersichtsseite
+    """
+    zur_kategrorie = models.OneToOneField(
+        "WettbewerbsKategorie", 
+        blank=True, null=True)
+    zeitraum = models.CharField(max_length=100, default='')
+    
+    class Meta: 
+        verbose_name = 'Wettbewerb'
+        verbose_name_plural = 'Wettbewerbe'
+
+
+class Wettbewerbsjahrgang(Grundklasse):
+    """ Ein Jahrgang eines Wettbewerbes
+    Könnte helfen bei Sebastians Übersichtsseite
+    """
+    wettbewerb = models.ForeignKey(
+        "Wettbewerb", 
+        blank=True, null=True)
+    jahrgang = models.SmallIntegerField(default=0)
+    
+    class Meta: 
+        verbose_name = 'Wettbewerbsjahrgang'
+        verbose_name_plural = 'Wettbewerbsjahrgänge'
+
 
 class ArtKategorie(Grundklasse):
     """ Die zur Auswahl stehenden Arten: Fachbereich, Wettbewerbsrunde """
