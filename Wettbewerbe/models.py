@@ -134,7 +134,8 @@ class Wettbewerb(Grundklasse):
     zur_kategrorie = models.OneToOneField(
         "WettbewerbsKategorie", 
         blank=True, null=True)
-    zeitraum = models.CharField(max_length=100, default='')
+    datum_anfang = models.DateField(null=True)
+    datum_ende = models.DateField(null=True)
     
     class Meta: 
         verbose_name = 'Wettbewerb'
@@ -149,7 +150,16 @@ class Wettbewerbsjahrgang(Grundklasse):
         "Wettbewerb", 
         blank=True, null=True)
     jahrgang = models.SmallIntegerField(default=0)
-    
+    _datum_anfang = models.DateField(null=True, blank=True)
+    _datum_ende = models.DateField(null=True, blank=True)
+    @property 
+    def datum_anfang(self):
+        return self._datum_anfang or self.wettbewerb.datum_anfang
+
+    @property 
+    def datum_ende(self):
+        return self._datum_ende or self.wettbewerb.datum_ende
+
     class Meta: 
         verbose_name = 'Wettbewerbsjahrgang'
         verbose_name_plural = 'Wettbewerbsjahrgänge'
